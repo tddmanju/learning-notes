@@ -1,0 +1,54 @@
+Design Principles:
+
+1. Code to contracts on implementation.
+	use Interfaces, Abstract class, Delegates for contracts.
+
+2. Iterator Pattern
+	use Enumerator: IEnumerator, IEnumerable.
+	when returning IEnumerable as a contract, you can return ReadOnlySetOf<Item> class or yield with loops.
+	
+	ex:
+	public class ReadOnlySetOf<Item> : IEnumerable<Item>
+	{
+		IList<Item> items;
+		
+		public ReadOnlySetOf(IList<Item> items)
+		{
+			this.items = items;
+		}
+		
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+		
+		public IEnumerator<Item> GetEnumerator()
+		{
+			return items.GetEnumerator();
+		}
+	}
+	
+	public IEnumerable<Movie> all_movies()
+	{
+		return new ReadOnlySetOf<Movie>(movies);
+	}
+	
+	or use yield
+	
+	public IEnumerable<Movie> all_movies()
+	{
+		foreach (var movie in movies)
+			yield return movies;
+	}
+	
+	public IEnumerable<Item> all_items()
+	{
+		foreach (var item in items)
+			yield return movie;
+	}
+
+	
+
+
+
+
